@@ -1,6 +1,7 @@
-class BirthModel:
-    def __init__(self, myInt):
-        self.stuff = myInt
+from action import Action
 
-    def doStuff(self):
-        return self.stuff
+
+class BirthModel:
+    def __init__(self):
+        self._initialState = {'X': 10}
+        self.actions = [Action(self._initialState, 0.1, {'X': 1}, {'X': 2})]
