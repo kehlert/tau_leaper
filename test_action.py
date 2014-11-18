@@ -8,7 +8,7 @@ class TestConstructor(unittest.TestCase):
         rateConstant = 0.1
         reactants = {'X': -1}
         with self.assertRaises(Exception):
-            Action(state, rateConstant, reactants, {})
+            Action(rateConstant, reactants, {})
 
 
 class TestGetNetStoich(unittest.TestCase):
@@ -17,7 +17,7 @@ class TestGetNetStoich(unittest.TestCase):
         rateConstant = 0.1
         reactants = {'X': 1, 'Y': 2}
         products = {'X': 2, 'Z': 1}
-        myAction = Action(state, rateConstant, reactants, products)
+        myAction = Action(rateConstant, reactants, products)
         self.assertDictEqual({'X': 1, 'Y': -2, 'Z': 1}, myAction.getNetStoich())
 
 
@@ -26,59 +26,59 @@ class TestGetPropensity(unittest.TestCase):
         state = {'X': 10}
         rateConstant = 0.1
         products = {'X': 1}
-        myAction = Action(state, rateConstant, {}, products)
-        self.assertEqual(0.1, myAction.getPropensity())
+        myAction = Action(rateConstant, {}, products)
+        self.assertEqual(0.1, myAction.getPropensity(state))
 
     def testFirstOrder(self):
         state = {'X': 10}
         rateConstant = 0.1
         reactants = {'X': 1}
-        myAction = Action(state, rateConstant, reactants, {})
-        self.assertEqual(1, myAction.getPropensity())
+        myAction = Action(rateConstant, reactants, {})
+        self.assertEqual(1, myAction.getPropensity(state))
 
     def testSecondOrder(self):
         state = {'X': 10, 'Y': 5}
         rateConstant = 0.1
         reactants = {'X': 1, 'Y': 1}
-        myAction = Action(state, rateConstant, reactants, {})
-        self.assertEqual(5, myAction.getPropensity())
+        myAction = Action(rateConstant, reactants, {})
+        self.assertEqual(5, myAction.getPropensity(state))
 
     def testAnotherSecondOrder(self):
         state = {'X': 10}
         rateConstant = 0.1
         reactants = {'X': 2}
-        myAction = Action(state, rateConstant, reactants, {})
-        self.assertEqual(4.5, myAction.getPropensity())
+        myAction = Action(rateConstant, reactants, {})
+        self.assertEqual(4.5, myAction.getPropensity(state))
 
     def testWithProducts(self):
         state = {'X': 10, 'Y': 5}
         rateConstant = 0.1
         reactants = {'X': 1}
         products = {'Y': 1}
-        myAction = Action(state, rateConstant, reactants, products)
-        self.assertEqual(1, myAction.getPropensity())
+        myAction = Action(rateConstant, reactants, products)
+        self.assertEqual(1, myAction.getPropensity(state))
 
     def testZeroAmount(self):
         state = {'X': 0}
         rateConstant = 0.1
         reactants = {'X': 1}
-        myAction = Action(state, rateConstant, reactants, {})
-        self.assertEqual(0, myAction.getPropensity())
+        myAction = Action(rateConstant, reactants, {})
+        self.assertEqual(0, myAction.getPropensity(state))
 
     def testSameMoleculeReactantAndProduct(self):
         state = {'X': 10}
         rateConstant = 0.1
         reactants = {'X': 1}
         products = {'X': 2}
-        myAction = Action(state, rateConstant, reactants, products)
-        self.assertEqual(1, myAction.getPropensity())
+        myAction = Action(rateConstant, reactants, products)
+        self.assertEqual(1, myAction.getPropensity(state))
 
     def testChangeState(self):
         state = {'X': 10}
         rateConstant = 0.1
         reactants = {'X': 1}
-        myAction = Action(state, rateConstant, reactants, {})
-        self.assertEqual(1, myAction.getPropensity())
+        myAction = Action(rateConstant, reactants, {})
+        self.assertEqual(1, myAction.getPropensity(state))
 
         state['X'] = 5
-        self.assertEqual(0.5, myAction.getPropensity())
+        self.assertEqual(0.5, myAction.getPropensity(state))
