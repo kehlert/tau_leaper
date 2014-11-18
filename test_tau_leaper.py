@@ -31,3 +31,16 @@ class TestConstructor(unittest.TestCase):
         for i in range(0, nRuns):
             accum.add(myLeaper.run())
         self.assertAlmostEqual(16.2, accum.getMeans()['X'])
+
+    def testEquation(self):
+        stepSize = 0.5
+        endTime = 1.01
+        model = BirthModel()
+        myLeaper = TauLeaper(model, stepSize, endTime)
+
+        accum = MeanAccumulator()
+        nRuns = pow(10, 7)
+        numpy.random.seed(0)
+        for i in range(0, nRuns):
+            accum.add(myLeaper.run())
+        print(accum.getMeans())
