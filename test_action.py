@@ -4,16 +4,20 @@ from action import Action
 
 class TestConstructor(unittest.TestCase):
     def testBadReactantStoich(self):
-        state = {'X': 10}
         rateConstant = 0.1
         reactants = {'X': -1}
+        with self.assertRaises(Exception):
+            Action(rateConstant, reactants, {})
+
+    def testInvalidStoich(self):
+        rateConstant = 0.1
+        reactants = {'X': 0}
         with self.assertRaises(Exception):
             Action(rateConstant, reactants, {})
 
 
 class TestGetNetStoich(unittest.TestCase):
     def testGetNetStoich(self):
-        state = {'X': 10, 'Y': 10}
         rateConstant = 0.1
         reactants = {'X': 1, 'Y': 2}
         products = {'X': 2, 'Z': 1}
@@ -79,6 +83,3 @@ class TestGetPropensity(unittest.TestCase):
         reactants = {'X': 1}
         myAction = Action(rateConstant, reactants, {})
         self.assertEqual(1, myAction.getPropensity(state))
-
-        state['X'] = 5
-        self.assertEqual(0.5, myAction.getPropensity(state))
