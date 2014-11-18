@@ -19,6 +19,6 @@ class TauLeaper:
     def _stepForward(self):
         for action in self._model.actions:
             propensity = action.getPropensity(self._state)
-            nEvents = np.random.poisson(propensity)
+            nEvents = np.random.poisson(propensity*self._stepSize)
             for molecule, stoich in action.getNetStoich().items():
                 self._state[molecule] += stoich*nEvents

@@ -10,8 +10,8 @@ class TestConstructor(unittest.TestCase):
         TauLeaper(BirthModel(), stepSize, endTime)
 
     def testRun(self):
-        stepSize = 0.1
-        endTime = 1
+        stepSize = 0.001
+        endTime = 5
         model = BirthModel()
         myLeaper = TauLeaper(model, stepSize, endTime)
         results = myLeaper.run()
