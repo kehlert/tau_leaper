@@ -1,3 +1,6 @@
+import numpy
+
+
 class MeanAccumulator:
     def __init__(self):
         self._data = {}
@@ -12,5 +15,5 @@ class MeanAccumulator:
         means = {}
         for key in self._data:
             keyData = self._data[key]
-            means[key] = sum(keyData)/len(keyData)
+            means[key] = numpy.mean(keyData)
         return means
