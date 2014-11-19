@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class TauLeaper:
     propensities = []
 
@@ -16,9 +17,8 @@ class TauLeaper:
             time += self._stepSize
             self._stepForward()
             # only append after the first step
-            if time > 0.010002:
-                a = self._model.actions[1].getPropensity(self._state)
-                self.propensities.append(a)
+        a = self._model.actions[0].getPropensity(self._state)
+        self.propensities.append(a)
         return dict(self._state)
 
     def _stepForward(self):
@@ -29,4 +29,4 @@ class TauLeaper:
             for molecule, stoich in action.getNetStoich().items():
                 changeInAmounts[molecule] += stoich*nEvents
         for molecule in changeInAmounts:
-           self._state[molecule] += changeInAmounts[molecule]
+            self._state[molecule] += changeInAmounts[molecule]

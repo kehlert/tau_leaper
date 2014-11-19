@@ -35,12 +35,16 @@ class TestConstructor(unittest.TestCase):
 
     def testEquation(self):
         stepSize = 0.01
+        # Specify the length of the sim in number of steps?
+        # Might be able to speed up the inner loop by changing
+        # the for loop, possibly into something very different.
+        # Also try inlining the step forward function.
         endTime = 0.02001
         model = DimerModel()
         myLeaper = TauLeaper(model, stepSize, endTime)
 
         accum = MeanAccumulator()
-        nRuns = pow(10, 5)
+        nRuns = pow(20, 6)
         for i in range(0, nRuns):
             accum.add(myLeaper.run())
         means = accum.getMeans()
