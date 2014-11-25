@@ -3,7 +3,7 @@ import numpy
 from tau_leaper import TauLeaper
 from birth_model import BirthModel
 from dimer_model import DimerModel
-from mean_accumulator import MeanAccumulator
+from stat_accumulator import StatAccumulator
 
 
 class TestConstructor(unittest.TestCase):
@@ -26,7 +26,7 @@ class TestConstructor(unittest.TestCase):
         model = BirthModel()
         myLeaper = TauLeaper(model, stepSize, endTime)
 
-        accum = MeanAccumulator()
+        accum = StatAccumulator()
         nRuns = 10
         numpy.random.seed(0)
         for i in range(0, nRuns):
@@ -34,21 +34,24 @@ class TestConstructor(unittest.TestCase):
         self.assertAlmostEqual(16.2, accum.getMeans()['X'])
 
     def testEquation(self):
-        stepSize = 0.01
+        stepSize = 0.001
         # Specify the length of the sim in number of steps?
         # Might be able to speed up the inner loop by changing
         # the for loop, possibly into something very different.
         # Also try inlining the step forward function.
-        endTime = 0.02001
+        endTime = 0.01001
         model = DimerModel()
         myLeaper = TauLeaper(model, stepSize, endTime)
 
-        accum = MeanAccumulator()
-        nRuns = pow(20, 6)
+        accum = StatAccumulator()
+        nRuns = pow(10, 5)
         for i in range(0, nRuns):
             accum.add(myLeaper.run())
         means = accum.getMeans()
+        variances = accum.getVars()
         print('')
         for key in sorted(means.keys()):
-            print("{0}: {1}".format(key, means[key]))
+            print("{0}: mean: {1} | var: {2}".format(key,
+                                                     means[key],
+                                                     variances[key]))
         print(numpy.mean(myLeaper.propensities))

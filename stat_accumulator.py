@@ -1,7 +1,7 @@
 import numpy
 
 
-class MeanAccumulator:
+class StatAccumulator:
     def __init__(self):
         self._data = {}
 
@@ -17,3 +17,10 @@ class MeanAccumulator:
             keyData = self._data[key]
             means[key] = numpy.mean(keyData)
         return means
+
+    def getVars(self):
+        vars = {}
+        for key in self._data:
+            keyData = self._data[key]
+            vars[key] = numpy.var(keyData, ddof=1)
+        return vars
